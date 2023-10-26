@@ -1,0 +1,46 @@
+{
+  "tweet": [
+    {
+      "tweet": "halo",
+      "time": "11/10/2023, 21.16.49",
+      "username": "Bas",
+      "id": 1
+    },
+    {
+      "tweet": "halo",
+      "time": "11/10/2023, 21.17.40",
+      "username": "Abda",
+      "id": 3
+    },
+    {
+      "tweet": "cuk",
+      "time": "12/10/2023, 10.53.00",
+      "username": "Putu Late",
+      "id": 6
+    },
+    {
+      "tweet": "halo",
+      "time": "12/10/2023, 13.23.03",
+      "username": "Putu Late",
+      "id": 8
+    },
+    {
+      "tweet": "halo",
+      "time": "12/10/2023, 13.23.08",
+      "username": "Putu Late",
+      "id": 9
+    },
+    {
+      "tweet": "putu alvi",
+      "time": "12/10/2023, 14.03.35",
+      "username": "Abda",
+      "id": 12
+    },
+    {
+      "tweet": "Ini Postingan",
+      "time": "12/10/2023, 14.03.50",
+      "username": "Abda",
+      "id": 13
+    }
+  ]
+}

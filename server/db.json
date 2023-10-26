@@ -1,0 +1,34 @@
+{
+  "user": [
+    {
+      "username": "Abda",
+      "email": "abda@gmail.com",
+      "password": "chairuabda",
+      "id": 1
+    },
+    {
+      "username": "Fariz",
+      "email": "fariz@gmail.com",
+      "password": "farizfariz",
+      "id": 4
+    },
+    {
+      "username": "Bas",
+      "email": "bas@gmail.com",
+      "password": "ibasibas",
+      "id": 6
+    },
+    {
+      "username": "Putu Late",
+      "email": "putu@gmail.com",
+      "password": "putuputu",
+      "id": 7
+    },
+    {
+      "username": "ryan",
+      "email": "ryan@gmail.com",
+      "password": "12345678",
+      "id": 8
+    }
+  ]
+}
