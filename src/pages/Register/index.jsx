@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import {
 	Box,
 	Text,
@@ -7,7 +8,6 @@ import {
 	FormLabel,
 	FormErrorMessage,
 } from "@chakra-ui/react";
-// import { useEffect, useState } from "react";
 import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-// Skema register
 const registerScheme = Yup.object().shape({
 	email: Yup.string()
 		.email("Invalid Email")
@@ -32,41 +31,40 @@ export const Register = () => {
 	// Ambil data user yang sudah register
 	const fatchData = async () => {
 		try {
-			const response = await axios.get("http://localhost:3000/user");
-			setAccounts(response.data);
+			const response = await axios.get(
+				"http://localhost:8080/api/twitter"
+			);
+			setAccounts(response.data.data);
 		} catch (err) {
 			console.log(err);
 		}
 	};
+
 
 	useEffect(() => {
 		fatchData();
-	}, [accounts]);
-
-	// Ngeset semua email ke dalam variable allEmail
-	const allEmail = accounts.map((item) => item.email);
+	}, []);
 
 
-	// Pengecekan email yang di input oleh user dengan email yang ada di db.json, jika ada yang sama maka akan menjalankan alert email sudah terdaftar, jika berbeda inputan akan dikirim ke db.json, ngeset localstorage, lalu me navigate ke home
 	const register = async (username, email, password) => {
 		try {
-			if (allEmail.includes(email)) {
-				alert("Email Sudah terdaftar");
-			} else {
-				await axios.post("http://localhost:3000/user", {
-					username,
-					email,
-					password,
-				});
-				localStorage.setItem("akun", allEmail.length);
-				Navigate("/home");
-			}
+			await axios.post("http://localhost:8080/api/twitter", {
+				username,
+				email,
+				password,
+			});
+			localStorage.setItem(
+				"akun",
+				accounts.map((user) => {
+					if (user.username == username) username;
+				})
+			);
+			Navigate("/home");
 		} catch (err) {
-			console.log(err);
+			throw err;
 		}
 	};
 
-	// menginisialisasi values dan loginschame, lalu ketika di submit, onsubmit akan dijalan kan memanggil function register untuk mengirimkan username, email dan password yang di input user
 	const formikRegister = useFormik({
 		initialValues: {
 			username: "",
@@ -101,7 +99,7 @@ export const Register = () => {
 				color="black"
 				w="350px"
 				outline={"9px solid rgba(255, 255, 255, 0.09)"}
-				boxShadow={'0px 6px 13px 3px rgba(64, 15, 104, 0.38)'}
+				boxShadow={"0px 6px 13px 3px rgba(64, 15, 104, 0.38)"}
 			>
 				<form onSubmit={formikRegister.handleSubmit}>
 					<Box

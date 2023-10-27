@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Box, Text, Image } from "@chakra-ui/react"
 import Logo from "../../../assets/abstract.png";
 import { useEffect, useState } from "react";
@@ -5,14 +6,16 @@ import axios from "axios";
 import { UserCircle } from "@phosphor-icons/react"
 
 export const TopBar = () => {
-    const [myAccount, setMyAccount] = useState()
+    const [ account, setAccount] = useState([])
+	const accLogin = localStorage.getItem("akun")
 
-	const accountsIndex = localStorage.getItem("akun")
 
 	const fatchUser = async () => {
 		try {
-			const responseUser = await axios.get("http://localhost:3000/user")
-			setMyAccount(responseUser.data[accountsIndex])
+			const response = await axios.get("http://localhost:8080/api/twitter")
+			const result = response.data.data
+			const filterUser = result.find((user) => user.id == accLogin)
+			setAccount(filterUser)
 		} catch (err) {
 			console.log(err)
 		}
@@ -20,7 +23,8 @@ export const TopBar = () => {
 
 	useEffect(() => {
 		fatchUser();
-	},[myAccount])
+	},[])
+
 
     return (
         <Box
@@ -49,7 +53,7 @@ export const TopBar = () => {
 						_hover={{bgColor: "rgba(255, 255, 255, 0.3)", color: "white", borderColor: "transparent"}}
 					> {/* tambah ini */}
 						<UserCircle size={28} />	{/* tambah ini */}
-						{myAccount?.email}
+						{account.email}
 					</Box>
 				</Box>
     )

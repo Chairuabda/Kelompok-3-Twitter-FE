@@ -10,10 +10,10 @@ export const UserBar = () => {
 	const fatchData = async () => {
 		try {
 			const responseUser = await axios.get(
-				"http://localhost:3000/user"
+				"http://localhost:8080/api/twitter"
 			);
-			const user = responseUser.data;
-			setAllUser(user.map((item) => item.username));
+			const user = responseUser.data.data;
+			setAllUser(user);
 		} catch (err) {
 			console.log(err);
 		}
@@ -23,8 +23,9 @@ export const UserBar = () => {
 		fatchData();
 	}, []);
 
-	const indexAccount = localStorage.getItem("akun") // tambah ini
-	const filterUser = allUser.filter((item) => item !== allUser[indexAccount])  // tambah ini
+	const accLogin = localStorage.getItem("akun") 
+	const filterUser = allUser.filter((user) => user.id !== accLogin)
+	
 
 	return (
 		<Box
@@ -69,7 +70,7 @@ export const UserBar = () => {
 								alignItems={"center"}
 							> {/* tambah ini */}
 								<UserCircle size={30} />
-								<Text m={"0"} fontSize={"14px"}>@{user}</Text> {/* ganti ini */}
+								<Text m={"0"} fontSize={"14px"}>@{user.username}</Text> {/* ganti ini */}
 							</Box>
 						);
 					})

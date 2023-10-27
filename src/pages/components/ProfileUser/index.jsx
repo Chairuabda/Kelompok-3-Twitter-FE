@@ -12,7 +12,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { SideNavbar } from "../SideNavbar";
 import { TopBar } from "../TopBar";
-import { UserMinus } from "@phosphor-icons/react"
+import { UserMinus } from "@phosphor-icons/react";
 
 export const ProfileUser = () => {
 	const [allUser, setAllUser] = useState([]);
@@ -20,10 +20,9 @@ export const ProfileUser = () => {
 	const fatchData = async () => {
 		try {
 			const userAccounts = await axios.get(
-				"http://localhost:3000/user"
+				"http://localhost:8080/api/twitter"
 			);
-			setAllUser(userAccounts.data);
-			console.log(allUser);
+			setAllUser(userAccounts.data.data);
 		} catch (err) {
 			console.log(err);
 		}
@@ -31,7 +30,7 @@ export const ProfileUser = () => {
 
 	useEffect(() => {
 		fatchData();
-	}, [allUser]);
+	}, []);
 
 	return (
 		<Box
@@ -59,17 +58,24 @@ export const ProfileUser = () => {
 					// bgColor={"red"}
 					display={"flex"}
 					justifyContent={"end"}
-                    
 				>
 					{/* <Text>Profile User</Text> */}
-					<TableContainer w={"800px"} >
+					<TableContainer w={"800px"}>
 						<Table variant="simple" colorScheme="teal">
 							<Thead>
-								<Tr >
-									<Th textAlign={"center"} color={"white"}>Username</Th>
-									<Th textAlign={"center"} color={"white"}>Email</Th>
-									<Th textAlign={"center"} color={"white"}>Password</Th>
-									<Th textAlign={"center"} color={"white"}>Dellet Account</Th>
+								<Tr>
+									<Th textAlign={"center"} color={"white"}>
+										Username
+									</Th>
+									<Th textAlign={"center"} color={"white"}>
+										Email
+									</Th>
+									<Th textAlign={"center"} color={"white"}>
+										Password
+									</Th>
+									<Th textAlign={"center"} color={"white"}>
+										Dellet Account
+									</Th>
 								</Tr>
 							</Thead>
 							{allUser?.length > 0 ? (
@@ -80,7 +86,20 @@ export const ProfileUser = () => {
 												<Td textAlign={"center"}>{user.username}</Td>
 												<Td textAlign={"center"}>{user.email}</Td>
 												<Td textAlign={"center"}>{user.password}</Td>
-												<Td display={"flex"} justifyContent={"center"}><UserMinus size={32} cursor={"pointer"} onClick={(() => {axios.delete(`http://localhost:3000/user/${user.id}`)})} /></Td>
+												<Td
+													display={"flex"}
+													justifyContent={"center"}
+												>
+													<UserMinus
+														size={32}
+														cursor={"pointer"}
+														onClick={() => {
+															axios.delete(
+																`http://localhost:3000/user/${user.id}`
+															);
+														}}
+													/>
+												</Td>
 											</Tr>
 										</Tbody>
 									);

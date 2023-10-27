@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /* eslint-disable no-dupe-else-if */
 import {
 	Box,
@@ -32,32 +33,32 @@ export const Login = () => {
 	// Ambil data user yang sudah register
 	const fatchDataLogin = async () => {
 		try {
-			const response = await axios.get("http://localhost:3000/user");
-			setAccounts(response.data);
+			const response = await axios.get(
+				"http://localhost:8080/api/twitter"
+			);
+			setAccounts(response.data.data);
 		} catch (err) {
 			console.log(err);
 		}
 	};
-
-	// Ngeset semua email ke dalam variable allEmail
-	const allEmail = accounts.map((item) => item.email);
 
 	useEffect(() => {
 		fatchDataLogin();
 	}, []);
 
 	// Pengecekan email dan password yang di input oleh user dengan email dan password yang ada di db.json
-	const check = (email, password) => {
-		if (allEmail.includes(email)) {
-			const newEmail = accounts[allEmail.indexOf(email)];
-			if (newEmail.password.includes(password)) {
-				localStorage.setItem("akun", allEmail.indexOf(email));
-				Navigate("/home");
-			} else {
-				alert("Password salah");
-			}
-		} else {
-			alert("Email Belum Terdaftar");
+	const check = async (email, password) => {
+		try {
+			await axios.post("http://localhost:8080/api/twitter/login", {
+				email,
+				password,
+			});
+
+			const accLogin = accounts.find((user) => user.email == email);
+			localStorage.setItem("akun", accLogin.id);
+			Navigate("/home");
+		} catch (err) {
+			throw err;
 		}
 	};
 
@@ -75,14 +76,14 @@ export const Login = () => {
 
 	return (
 		<Box
-		display={"flex"}
-		w={"100vw"}
-		justifyContent={"center"}
-		alignItems={"center"}
-		minH={"100vh"}
-		bgImage="url('/src/assets/wickedbackground.svg')"
-		backgroundSize="cover"
-		backgroundRepeat="repeat"
+			display={"flex"}
+			w={"100vw"}
+			justifyContent={"center"}
+			alignItems={"center"}
+			minH={"100vh"}
+			bgImage="url('/src/assets/wickedbackground.svg')"
+			backgroundSize="cover"
+			backgroundRepeat="repeat"
 		>
 			<Box
 				display={"flex"}
@@ -95,7 +96,7 @@ export const Login = () => {
 				color="black"
 				w="350px"
 				outline={"9px solid rgba(255, 255, 255, 0.09)"}
-				boxShadow={'0px 6px 13px 3px rgba(64, 15, 104, 0.38)'}
+				boxShadow={"0px 6px 13px 3px rgba(64, 15, 104, 0.38)"}
 			>
 				<form onSubmit={formik.handleSubmit}>
 					<Box
@@ -112,14 +113,14 @@ export const Login = () => {
 							<Text fontSize="20px">Login</Text>
 						</Box>
 						<FormControl
-							isInvalid={
-								formik.touched.email && formik.errors.email
-							}
+							isInvalid={formik.touched.email && formik.errors.email}
 							display="flex"
 							flexDirection="column"
 							justifyContent="center"
 							mb={"1rem"}
-						> {/* tambah ini */}
+						>
+							{" "}
+							{/* tambah ini */}
 							<FormLabel>Email</FormLabel>
 							<Input
 								type="text"
@@ -137,7 +138,8 @@ export const Login = () => {
 								<FormErrorMessage>
 									{formik.errors.email}
 								</FormErrorMessage>
-							)} {/* tambah ini */}
+							)}{" "}
+							{/* tambah ini */}
 						</FormControl>
 						<FormControl
 							isInvalid={
@@ -146,7 +148,9 @@ export const Login = () => {
 							display="flex"
 							flexDirection="column"
 							justifyContent="center"
-						> {/* tambah ini */}
+						>
+							{" "}
+							{/* tambah ini */}
 							<FormLabel>Password</FormLabel>
 							<Input
 								type="password"
@@ -164,7 +168,8 @@ export const Login = () => {
 								<FormErrorMessage>
 									{formik.errors.password}
 								</FormErrorMessage>
-							)} {/* tambah ini */}
+							)}{" "}
+							{/* tambah ini */}
 						</FormControl>
 						<Box display={"flex"} justifyContent={"center"}>
 							<Button
